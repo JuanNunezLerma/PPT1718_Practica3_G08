@@ -15,7 +15,8 @@ import java.util.Random;
  * Grado en Ingeniería Telemática
  * Universidad de Jaén
  * 
- * @author Juan Carlos Cuevas Martínez
+ * @author Juan Núñez Lerma / Pedro Javier Saéz Mira /
+ *         Grupo 08
  */
 public class HTTPSocketConnection implements Runnable {
     
