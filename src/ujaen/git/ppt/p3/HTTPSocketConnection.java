@@ -2,6 +2,7 @@ package ujaen.git.ppt.p3;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -37,33 +38,51 @@ public class HTTPSocketConnection implements Runnable {
         DataOutputStream output;
         FileInputStream input_file;
         try {
+            byte[] outdata=null;
             String outmesg="";
             input = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
             output = new DataOutputStream(mSocket.getOutputStream());
             do{
-                
+               
                 request_line= input.readLine();
                 //Esto se debería sacar de esta bucle
                 if(request_line.startsWith("GET "))
                 {
+                    String resourceFile="";
+               
                     String parts[]=request_line.split(" ");
                     if(parts.length==3)
                     {
+                       
+                        //Comprobar la versión
+                        
+                        
                         if(parts[1].equalsIgnoreCase("/")){
-                         outmesg="HTTP/1.1 200 OK\r\nContent-type:text/html\r\n\r\n<html><body><h1>HOLA"+n+" veces</h1></body></html>";
-                        }else{
-                        outmesg="HTTP/1.1 404\r\nContent-type:text/html\r\n\r\n<html><body><h1>No encontrado</h1></body></html>";}
-                            
+                            resourceFile="index.html";
+                        }else
+                            resourceFile=parts[1];
+                        //Content-type
+                          
+                        outdata=leerRecurso(resourceFile);
+                        //Cabecera content-length
+                        if(outdata==null)    {
+                            outmesg="HTTP/1.1 404\r\nContent-type:text/html\r\n\r\n<html><body><h1>No encontrado</h1></body></html>";
+                            outdata=outmesg.getBytes();    
+                        }
                     }
                     else{
                         outmesg="HTTP/1.1 400\r\n";
+                        outdata=outmesg.getBytes();
                     }
-                        
+            }
                 
-                }
+                
                 System.out.println(request_line);
             }while(request_line.compareTo("")!=0);
-           output.write(outmesg.getBytes());
+            //CABECERAS....
+            
+            //Recurso
+           output.write(outdata);
             input.close();
             output.close();
             mSocket.close();
@@ -72,4 +91,16 @@ public class HTTPSocketConnection implements Runnable {
             System.err.println("Exception" + e.getMessage());
         }
         }
+
+    /**
+     * Método para leer un recurso del disco
+     * @param resourceFile
+     * @return los bytes del archio o null si éste no existe
+     */
+    private byte[] leerRecurso(String resourceFile) {
+        //Se debe comprobar que existe
+        File f;
+        
+        return null;
+    }
 }
