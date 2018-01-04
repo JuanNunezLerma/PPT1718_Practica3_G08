@@ -28,7 +28,7 @@ public class MainServer {
             System.out.println(MSG_HANDSHAKE);
             while(true) {
                 Socket socket =mMainServer.accept();
-                 System.out.println("Conexión entrande desde: "+socket.getInetAddress().toString());
+                 System.out.println("Conexión entrante desde: "+socket.getInetAddress().toString());
                  Thread connection= new Thread(new HTTPSocketConnection(socket));
                  connection.start();
             }
