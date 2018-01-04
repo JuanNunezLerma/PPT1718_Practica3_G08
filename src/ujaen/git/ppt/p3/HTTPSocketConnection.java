@@ -53,7 +53,7 @@ public class HTTPSocketConnection implements Runnable {
             input = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
             output = new DataOutputStream(mSocket.getOutputStream());
             
-            do{
+            //do{
                 Server="Servidor HTTP - Pedro / Juan"; //Este será el servidor usado, es decir el nuestro
                 Allow="GET"; //El único método permitido es el GET                                                                   
                 
@@ -131,7 +131,7 @@ public class HTTPSocketConnection implements Runnable {
                 else if(request_line.startsWith("Connection")){                                
                     Connection="Close";                                                                                                                                                                          
                 }
-                else if(request_line.startsWith("POST")){//Si no empieza ni por GET ni por Connection es que es otro método el cuál no esta permitido en nuestra práctica
+                else{//Si no empieza ni por GET ni por Connection es que es otro método el cuál no esta permitido en nuestra práctica
                                                                                                 
                     outmesg="HTTP/1.1 405\r\nContent-type:text/html\r\n\r\n<html><body><h1>Metodo no permitido</h1></body></html>";
                     outdata=outmesg.getBytes();                                                
@@ -139,13 +139,13 @@ public class HTTPSocketConnection implements Runnable {
                 }  
                 
                 System.out.println(request_line);
-            }while(request_line.compareTo("")!=0);
+            //}while(request_line.compareTo("")!=0);
             
             //Se ha eliminado el bucle do while, ya que al hacer la segunda iteración del bucle siempre entraba en el 405
-            /*do{
+            do{
                 request_line= input.readLine();        
                 System.out.println(request_line);
-            }while(request_line.compareTo("")!=0);*/
+            }while(request_line.compareTo("")!=0);
             
             //Para obtener la hora usamos la clase DateTimeFormatter, Instant y ZoneOffset
              Instant instant = Instant.now();  
