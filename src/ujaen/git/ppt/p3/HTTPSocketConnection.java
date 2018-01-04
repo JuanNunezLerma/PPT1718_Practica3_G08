@@ -44,7 +44,7 @@ public class HTTPSocketConnection implements Runnable {
         BufferedReader input;
         DataOutputStream output;
         FileInputStream input_file;
-        String Server="",Allow="",Content_type="",Content_length="",Connection="";
+        String Server="",Allow="",Content_type="",Content_length="",Connection="", resourceFile="";
        
         try {
             //aqui se declaran las variables que van a recoger los datos de entrada y salida del socket.
@@ -64,7 +64,6 @@ public class HTTPSocketConnection implements Runnable {
                    //las cabeceras y demás, sino no entramos directamente.
                     
                 {
-                    String resourceFile="";
                     //Dividimos la peticion en partes y comprobamos si tiene 3 
                     //String parts[]=request_line.split(" ");
                     if(parts.length==3)
@@ -105,12 +104,11 @@ public class HTTPSocketConnection implements Runnable {
                             }                                                                   
                             //Si no esta vacío es que lo ha encontrado por tanto lo mostramos.
                             else{                                                                      
-                                outmesg="HTTP/1.1 200 OK \r\nContent-type:text/html\r\n\r\n"+outdata+""; 
+                                outmesg="HTTP/1.1 200 OK \r\nContent-type:text/html\r\n\r\n"+outdata+"";                               
                             }
                             
                             // Aquí sacamos la longitud del recurso para rellenar la cabecera Content-Length
-                            Content_length=""+outdata.length+"";                                        
-                            
+                            Content_length=""+outdata.length+"";                          
                             //Si la tercera parte(parts[2]) tiene la version HTTP/2 nos encontramos ante el error 505 el cual nos dice que 
                             //esa versión de HTTP no esta soportada
                             if(parts[2].equalsIgnoreCase("HTTP/2")){                            
@@ -153,18 +151,19 @@ public class HTTPSocketConnection implements Runnable {
         
             //CABECERAS
             //Mostramos por pantalla las distintas cabeceras
+                      
             System.out.println("------------------------------------"); 
-            System.out.println("Connection: "+Connection+"");
-            System.out.println("Content-Type: "+Content_type+"");
-            System.out.println("Date: "+fecha+"");                                              
-            System.out.println("Server: "+Server+"");                                          
-            System.out.println("Allow: "+Allow+"");                                                                                           
-            System.out.println("Content-Length: "+Content_length+"");                                                                        
-            System.out.println("------------------------------------");                                                            
-            
+            System.out.println("Connection: "+Connection);
+            System.out.println("Content-Type: "+Content_type);
+            System.out.println("Date: "+fecha);                                              
+            System.out.println("Server: "+Server);                                          
+            System.out.println("Allow: "+Allow);                                                                                           
+            System.out.println("Content-Length: "+Content_length);                                                                        
+            System.out.println("------------------------------------");   
+                      
             //Recurso
             //Escribimos en output el resultado de outdata y cerramos el input, el output y el socket
-           output.write(outdata);
+            output.write(outdata);
             input.close();
             output.close();
             mSocket.close();
