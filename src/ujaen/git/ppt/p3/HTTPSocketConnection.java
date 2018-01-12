@@ -79,21 +79,22 @@ public class HTTPSocketConnection implements Runnable {
                         //if(parts[1].equals("1") || parts[1].equals("1.1")){
                             if(parts[1].equalsIgnoreCase("/") || parts[1].equalsIgnoreCase("/index.html")){
                                 outmesg="HTTP/1.1 200 OK \r\nContent-type:text/html\r\n\r\n";   
-                                resourceFile="index.html";                                      
+                                resourceFile="\\index.html";                                      
                                 System.out.println("HTTP/1.1 200 OK");                          
                                 Content_type="text/html";                                                
-                            }                                                                   
+                            }     
+                            else resourceFile=parts[1];
                             //La otra opción es que sea la imagen.jpeg por tanto también mostramos un mensaje de OK 
                             //y le pasamos el recurso a abrir que será la imagen.jpeg La cabecera Content-Type sera logicamente image/jpeg
-                            else if (parts[1].equalsIgnoreCase("/uja.jpg")){                                              
-                                outmesg="HTTP/1.1 200 OK \r\nContent-type:image \r\n\r\n";      
-                                resourceFile="uja.jpg";                                      
-                                System.out.println("HTTP/1.1 200 OK");                          
-                                Content_type="image/jpeg";                                                 
-                            }                                                                   
+                           // else if (parts[1].equalsIgnoreCase("/uja.jpg")){                                              
+                             //   outmesg="HTTP/1.1 200 OK \r\nContent-type:image \r\n\r\n";      
+                             //   resourceFile="uja.jpg";                                      
+                             //   System.out.println("HTTP/1.1 200 OK");                          
+                               // Content_type="image/jpeg";                                                 
+                            //}                                                                   
                             
                             //Aquí llamamos a la funcion leerRecurso implementada despues para que nos lea el recurso anterior
-                            
+                            resourceFile=resourceFile.replace("/", "\\");
                             outdata=leerRecurso(resourceFile);                                  
                             //Si al leer este recurso , este recurso está vacio significa que no ha encontrado el recurso
                             //por lo que nos encontramos ante el error 404 e informamos de ello.
@@ -185,8 +186,8 @@ public class HTTPSocketConnection implements Runnable {
 	 BufferedInputStream bufferedInputStream = null;
          byte[] bytes = null;
          //Creamos el fichero con directorio ./ y el recurso
-         File f = new File ("C:\\\\Users\\\\Juan_\\\\OneDrive\\\\Documentos\\\\GitHub\\\\PPT1718_Practica3_G08\\\\src\\\\ujaen\\\\git\\\\ppt\\\\p3\\\\"+resourceFile+"");
-         //File f= new File("./"+resourceFile);
+         //File f = new File ("C:\\\\Users\\\\Juan_\\\\OneDrive\\\\Documentos\\\\GitHub\\\\PPT1718_Practica3_G08\\\\src\\\\ujaen\\\\git\\\\ppt\\\\p3\\\\"+resourceFile+"");
+         File f= new File("."+resourceFile);
          //File f = new File ("C:\\\\Users\\\\Juan_\\\\PPT1718_Practica3_G08\\\\src\\\\ujaen\\\\git\\\\ppt\\\\p3\\\\"+resourceFile+"");
          
           //si existe el archivo calculamos su longitud, creamos los objetos de entrada del stream, 
